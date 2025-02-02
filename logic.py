@@ -1,6 +1,6 @@
 from random import randint
 import requests, datetime
-from datetime import timedelta
+from datetime import timedelta, datetime
 
 class Trainer:
     def __init__(self, username):
@@ -45,8 +45,8 @@ class Pokemon:
 
     def feed(self, feed_interval = 20, hp_increase = 10 ):
         current_time = datetime.now()  
-        delta_time = timedelta(second = feed_interval)  
-        if (current_time - self.last_feed_time) > delta_time:
+        delta_time = timedelta(seconds = feed_interval)  
+        if (current_time - self.lasttime) > delta_time:
             self.hp += hp_increase
             self.lasttime = current_time
             return f"Здоровье покемона увеличено. Текущее здоровье: {self.hp}"
@@ -77,6 +77,10 @@ class Pokemon:
 class Wizard(Pokemon):
     def info(self):
         return "У тебя покемон-волшебник \n\n" + super().info()
+    
+    def feed(self):
+        return super().feed(hp_increase = 15) 
+
 
 class Fighter(Pokemon):
     def attack(self, enemy):
@@ -88,6 +92,9 @@ class Fighter(Pokemon):
 
     def info(self):
         return "У тебя покемон-боец \n\n" + super().info()
+    
+    def feed(self):
+        return super().feed(feed_interval = 10)
 
 # Пример использования
 trainer1 = Trainer("Ash")
